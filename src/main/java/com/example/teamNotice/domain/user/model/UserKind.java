@@ -29,4 +29,8 @@ public enum UserKind {
         }
         throw new IllegalArgumentException("Unknown UserKind code: " + code);
     }
+
+    public int getCode() {
+        return code;
+    }
 }

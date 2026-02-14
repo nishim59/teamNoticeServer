@@ -8,6 +8,7 @@ import com.example.teamNotice.domain.user.model.User;
 import com.example.teamNotice.domain.user.model.UserId;
 import com.example.teamNotice.domain.user.model.UserKind;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
@@ -15,6 +16,7 @@ import java.util.Optional;
 /**
  * ユーザアプリケーション
  */
+@Service
 public class UserApplicationService {
 
     private final UserRepository userRepository;

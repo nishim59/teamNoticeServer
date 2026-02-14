@@ -36,6 +36,8 @@ public class User {
         this.name = name;
         this.isActive = isActive;
         this.userKind = userKind;
+        this.createdAt = createdAt;
+        this.updatedAt = updatedAt;
     }
 
     /**

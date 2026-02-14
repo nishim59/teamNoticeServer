@@ -13,7 +13,7 @@ public record UserId(
      * @return 新たに作成されたUserID
      */
     public static UserId create() {
-        return new UserId(UUID.randomUUID());
+            return new UserId(UUID.randomUUID());
     }
 
     /**
@@ -23,5 +23,10 @@ public record UserId(
      */
     public static UserId from(String id) {
         return new UserId(UUID.randomUUID());
+    }
+
+
+    public UUID getValue() {
+        return value;
     }
 }
