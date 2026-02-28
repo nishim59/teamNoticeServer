@@ -25,8 +25,4 @@ public record UserId(
         return new UserId(UUID.randomUUID());
     }
 
-
-    public UUID getValue() {
-        return value;
-    }
 }

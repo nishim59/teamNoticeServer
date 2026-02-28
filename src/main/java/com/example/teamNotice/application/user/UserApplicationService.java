@@ -7,6 +7,7 @@ import com.example.teamNotice.domain.user.UserRepository;
 import com.example.teamNotice.domain.user.model.User;
 import com.example.teamNotice.domain.user.model.UserId;
 import com.example.teamNotice.domain.user.model.UserKind;
+import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -46,6 +47,7 @@ public class UserApplicationService {
      *
      * @param command 更新コマンド
      */
+    @Transactional
     public void update(UserUpdateCommand command){
         // 更新対象ユーザを取得
         Optional<User> target = userRepository.findById(command.id());
@@ -55,10 +57,8 @@ public class UserApplicationService {
         user.changeName(command.name());
         user.changeKind(command.userKind());
         // 保存
-        boolean updated = userRepository.updateWithOptimisticLock(user);
-        if (!updated) {
-            throw new RuntimeException("User update conflict.");
-        }
+        userRepository.update(user);
+
     }
 
     /**

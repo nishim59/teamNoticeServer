@@ -59,6 +59,34 @@ public class User {
         );
     }
 
+    /**
+     * updateする際にentity→domainに変換用
+     *
+     * @param id 更新対象のユーザid
+     * @param name 更新するユーザの名前
+     * @param userKind 更新するユーザの区分
+     * @param updatedAt 更新日時
+     * @return 更新されたユーザエンティティ
+     */
+    public static User update(
+            UserId id,
+            String name,
+            boolean isActive,
+            UserKind userKind,
+            LocalDateTime createdAt,
+            LocalDateTime updatedAt
+    ) {
+        return new User(
+                id,
+                name,
+                isActive,
+                userKind,
+                createdAt,
+                updatedAt
+        );
+    }
+
+
     public UserId getId () {
         return id;
     }

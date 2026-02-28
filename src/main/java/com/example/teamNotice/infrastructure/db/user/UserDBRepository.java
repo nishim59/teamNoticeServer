@@ -5,6 +5,7 @@ import com.example.teamNotice.domain.user.model.User;
 import com.example.teamNotice.domain.user.model.UserId;
 import com.example.teamNotice.domain.user.model.UserKind;
 import com.example.teamNotice.infrastructure.db.user.entity.UserEntity;
+import jakarta.transaction.Transactional;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
@@ -30,15 +31,8 @@ public class UserDBRepository implements UserRepository {
     @Override
     public void save(User user) {
 
-        UUID idValue = null;
-
-        // DBに格納するためUserId型をUUIDに変換
-        if (user.getId() != null) {
-            idValue = user.getId().getValue();
-        }
-
         UserEntity entity = new UserEntity(
-                idValue,
+                extractUuid(user),
                 user.getName(),
                 user.isActive(),
                 user.getUserKind(),
@@ -71,7 +65,9 @@ public class UserDBRepository implements UserRepository {
      */
     @Override
     public Optional<User> findById(UserId id) {
-        return Optional.empty();
+
+        return userJpaRepository
+                .findById(id.value()).map(this::toDomain);
     }
 
     /**
@@ -95,4 +91,57 @@ public class UserDBRepository implements UserRepository {
     public boolean updateWithOptimisticLock(User user) {
         return false;
     }
+
+    /**
+     * 更新する
+     *
+     * @param user
+     */
+    @Override
+    @Transactional
+    public void update(User user) {
+
+        UserEntity entity = userJpaRepository
+                .findById(user.getId().value())
+                .orElseThrow(() -> new RuntimeException("not found"));
+
+        entity.setId(extractUuid(user));
+        entity.setName(user.getName());
+        entity.setActive(user.isActive());
+        entity.setUserKind(user.getUserKind());
+        entity.setCreatedAt(user.getCreatedAt());
+        entity.setUpdatedAt(user.getUpdatedAt());
+    }
+
+    /**
+     * DBから受け取ったエンティティをドメインエンティティに変換
+     *
+     * @param entity
+     * @return 更新されたユーザーエンティティ
+     */
+    private User toDomain(UserEntity entity) {
+
+        return User.update(
+                entity.getId() == null ? null : new UserId(entity.getId()),
+                entity.getName(),
+                entity.isActive(),
+                entity.getUserKind(),
+                entity.getCreatedAt(),
+                entity.getUpdatedAt()
+        );
+    }
+
+    /**
+     * UserId型をUUIDに変換
+     *
+     * @param user UserId型のユーザーID
+     * @return UUID UUID型のユーザID
+     */
+    private UUID extractUuid(User user) {
+        if (user.getId() == null) {
+            return null;
+        }
+        return user.getId().value();
+    }
+
 }

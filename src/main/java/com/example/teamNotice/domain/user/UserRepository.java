@@ -21,6 +21,13 @@ public interface UserRepository {
     void save(User user);
 
     /**
+     * 更新する。
+     *
+     * @param user
+     */
+    void update(User user);
+
+    /**
      * 全取得
      *
      * @param name 名前検索条件（前後部分一致、NULLで条件に入れない）

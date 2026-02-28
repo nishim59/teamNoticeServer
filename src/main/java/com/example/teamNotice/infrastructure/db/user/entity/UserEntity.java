@@ -25,6 +25,7 @@ public class UserEntity {
     /* 作成日時 */
     private LocalDateTime createdAt;
     /* 更新日時 */
+    @Version
     private LocalDateTime updatedAt;
 
     public UserEntity() {
@@ -63,4 +64,27 @@ public class UserEntity {
         return updatedAt;
     }
 
+    public void setId(UUID id) {
+        this.id = id;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public void setActive(boolean active) {
+        isActive = active;
+    }
+
+    public void setUserKind(UserKind userKind) {
+        this.userKind = userKind;
+    }
+
+    public void setCreatedAt(LocalDateTime createdAt) {
+        this.createdAt = createdAt;
+    }
+
+    public void setUpdatedAt(LocalDateTime updatedAt) {
+        this.updatedAt = updatedAt;
+    }
 }
