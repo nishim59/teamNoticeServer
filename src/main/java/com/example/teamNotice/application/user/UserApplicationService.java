@@ -71,13 +71,12 @@ public class UserApplicationService {
         Optional<User> target = userRepository.findById(id);
         // 取得できなければエラー
         User user = target.orElseThrow(() -> new RuntimeException("User not found: " + id));
+        // 無効化
+        user.deactivate();
         // 削除
         user.delete();
         // 保存
-        boolean updated = userRepository.updateWithOptimisticLock(user);
-        if (!updated) {
-            throw new RuntimeException("User update conflict.");
-        }
+        userRepository.update(user);
     }
 
     /**
@@ -86,7 +85,7 @@ public class UserApplicationService {
      * @param command 検索コマンド
      * @return ユーザ一覧
      */
-    List<User> search(UserSearchCommand command) {
+    public List<User> search(UserSearchCommand command) {
         return userRepository.fetchAll(command.name(), command.userKind(), command.isActive());
     }
 
@@ -96,7 +95,7 @@ public class UserApplicationService {
      * @param id ユーザID
      * @return ユーザ
      */
-    Optional<User> findById(UserId id) {
+    public Optional<User> findById(UserId id) {
         return userRepository.findById(id);
     }
 }

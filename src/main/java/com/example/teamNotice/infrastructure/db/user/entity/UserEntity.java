@@ -27,6 +27,8 @@ public class UserEntity {
     /* 更新日時 */
     @Version
     private LocalDateTime updatedAt;
+    /* 削除日時 */
+    private LocalDateTime deletedAt;
 
     public UserEntity() {
     }
@@ -64,6 +66,10 @@ public class UserEntity {
         return updatedAt;
     }
 
+    public LocalDateTime getDeletedAt() {
+        return deletedAt;
+    }
+
     public void setId(UUID id) {
         this.id = id;
     }
@@ -86,5 +92,9 @@ public class UserEntity {
 
     public void setUpdatedAt(LocalDateTime updatedAt) {
         this.updatedAt = updatedAt;
+    }
+
+    public void setDeletedAt(LocalDateTime deletedAt) {
+        this.deletedAt = deletedAt;
     }
 }

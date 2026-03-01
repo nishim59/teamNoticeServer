@@ -30,7 +30,8 @@ public class User {
             boolean isActive,
             UserKind userKind,
             LocalDateTime createdAt,
-            LocalDateTime updatedAt
+            LocalDateTime updatedAt,
+            LocalDateTime deletedAt
     ) {
         this.id = id;
         this.name = name;
@@ -38,6 +39,7 @@ public class User {
         this.userKind = userKind;
         this.createdAt = createdAt;
         this.updatedAt = updatedAt;
+        this.deletedAt = deletedAt;
     }
 
     /**
@@ -54,6 +56,7 @@ public class User {
                 name,
                 false,
                 userKind,
+                LocalDateTime.now(),
                 LocalDateTime.now(),
                 LocalDateTime.now()
         );
@@ -74,7 +77,8 @@ public class User {
             boolean isActive,
             UserKind userKind,
             LocalDateTime createdAt,
-            LocalDateTime updatedAt
+            LocalDateTime updatedAt,
+            LocalDateTime deletedAt
     ) {
         return new User(
                 id,
@@ -82,7 +86,8 @@ public class User {
                 isActive,
                 userKind,
                 createdAt,
-                updatedAt
+                updatedAt,
+                deletedAt
         );
     }
 
@@ -110,6 +115,8 @@ public class User {
     public LocalDateTime getUpdatedAt () {
         return updatedAt;
     }
+
+    public LocalDateTime getDeletedAt() { return deletedAt; }
 
     /**
      * 名前更新

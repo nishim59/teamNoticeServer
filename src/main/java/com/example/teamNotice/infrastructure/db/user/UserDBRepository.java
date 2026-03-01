@@ -54,7 +54,11 @@ public class UserDBRepository implements UserRepository {
      */
     @Override
     public List<User> fetchAll(String name, UserKind kind, Boolean isActive) {
-        return List.of();
+
+        return userJpaRepository.findAll()
+                .stream()
+                .map(this::toDomain)
+                .toList();
     }
 
     /**
@@ -95,7 +99,7 @@ public class UserDBRepository implements UserRepository {
     /**
      * 更新する
      *
-     * @param user
+     * @param user 更新情報
      */
     @Override
     @Transactional
@@ -111,12 +115,13 @@ public class UserDBRepository implements UserRepository {
         entity.setUserKind(user.getUserKind());
         entity.setCreatedAt(user.getCreatedAt());
         entity.setUpdatedAt(user.getUpdatedAt());
+        entity.setDeletedAt(user.getDeletedAt());
     }
 
     /**
      * DBから受け取ったエンティティをドメインエンティティに変換
      *
-     * @param entity
+     * @param entity 変換対象エンティティ
      * @return 更新されたユーザーエンティティ
      */
     private User toDomain(UserEntity entity) {
@@ -127,7 +132,8 @@ public class UserDBRepository implements UserRepository {
                 entity.isActive(),
                 entity.getUserKind(),
                 entity.getCreatedAt(),
-                entity.getUpdatedAt()
+                entity.getUpdatedAt(),
+                entity.getDeletedAt()
         );
     }
 
